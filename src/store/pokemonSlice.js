@@ -5,7 +5,7 @@ export const fetchPokemonList = createAsyncThunk(
   'pokemon/fetchList',
   async () => {
     const res = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=20');
-    return res.data.results; // array con nombre y url
+    return res.data.results;
   }
 );
 
