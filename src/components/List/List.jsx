@@ -4,6 +4,7 @@ import { fetchPokemons } from '../../features/pokemon/pokemonSlice';
 import Loading from '../Loading/Loading';
 import { STATUS } from '../../features/pokemon/pokemonSlice';
 import Error from '../Error/Error';
+import Card from '../Card/Card';
 
 const PokemonList = () => {
   const dispatch = useDispatch();
@@ -27,11 +28,11 @@ const PokemonList = () => {
   }
 
   return (
-    <ul>
+    <div className="pokemon-list">
       {pokemons.map((pokemon) => (
-        <li key={pokemon.name}>{pokemon.name}</li>
+        <Card key={pokemon.name} name={pokemon.name} />
       ))}
-    </ul>
+    </div>
   );
 };
 
