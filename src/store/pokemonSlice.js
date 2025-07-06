@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getPokemonList } from '../api/pokemon';
 import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_POKEMON_API;
 
 export const fetchPokemonList = createAsyncThunk(
   'pokemon/fetchList',
   async () => {
-    const res = await axios.get(`${API_URL}/pokemon?limit=20`);
+    const res = await axios.get(getPokemonList());
     return res.data.results;
   }
 );
