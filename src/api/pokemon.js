@@ -1,8 +1,5 @@
-import axios from 'axios';
+import API from './axios';
 
-const API = axios.create({
-  baseURL: import.meta.env.VITE_POKEMON_API,
-});
 const ENDPOINT = '/pokemon';
 
 export const getPokemonList = async (limit) => {
