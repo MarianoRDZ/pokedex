@@ -20,11 +20,15 @@ export const getDetailedPokemonList = async (limit = 50) => {
 
   const detailedList = await Promise.all(
     pokemonList.map(async (pokemon) => {
-      const detailsResponse = await API.get(pokemon.url);
+      const response = await API.get(pokemon.url);
 
       return {
-        name: pokemon.name,
-        sprite: detailsResponse.data.sprites.front_default,
+        name: response.data.name,
+        id: response.data.id,
+        types: response.data.types,
+        height: response.data.height,
+        weight: response.data.weight,
+        sprite: response.data.sprites.front_default,
       };
     })
   );

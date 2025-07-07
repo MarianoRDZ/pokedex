@@ -12,12 +12,13 @@ const initialState = {
   pokemons: [],
   status: STATUS.idle,
   error: null,
+  isModalOpen: false,
 };
 
 export const fetchPokemons = createAsyncThunk(
   'pokemon/fetchPokemons',
   async () => {
-    const pokemons = await getDetailedPokemonList(50);
+    const pokemons = await getDetailedPokemonList(151);
     return pokemons;
   }
 );
@@ -25,7 +26,13 @@ export const fetchPokemons = createAsyncThunk(
 const pokemonSlice = createSlice({
   name: 'pokemon',
   initialState,
-  reducers: {},
+  reducers: {
+    closeModal: (state) => {
+      state.isOpen = false;
+      state.data = null;
+      state.status = STATUS.idle;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchPokemons.pending, (state) => {
@@ -42,4 +49,5 @@ const pokemonSlice = createSlice({
   },
 });
 
+export const { closeModal } = pokemonSlice.actions;
 export default pokemonSlice.reducer;

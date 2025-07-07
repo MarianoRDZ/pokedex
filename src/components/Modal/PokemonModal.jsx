@@ -1,5 +1,5 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { closeModal } from '../../features/pokemon/pokemonDetailsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeModal } from '../../features/pokemon/pokemonModalSlice';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import TypePill from '../TypePill/TypePill';
@@ -17,40 +17,36 @@ import {
 
 export default function PokemonModal() {
   const dispatch = useDispatch();
-  const { isOpen, status, data, error } = useSelector(
-    (state) => state.pokemonDetails
+  const { isOpen, selectedPokemon } = useSelector(
+    (state) => state.pokemonModal
   );
 
-  if (!isOpen) return null;
+  if (!isOpen || !selectedPokemon) return null;
 
   return (
     <Background onClick={() => dispatch(closeModal())}>
       <Modal onClick={(e) => e.stopPropagation()}>
-        {status === 'loading' && <Loading />}
-        {status === 'failed' && <Error error={error} />}
-        {status === 'succeeded' && data && (
-          <>
-            <Header type={data?.types[0].type.name || 'normal'}>
-              <CloseModal>
-                <CloseButton onClick={() => dispatch(closeModal())}>
-                  X
-                </CloseButton>
-              </CloseModal>
-              <SpriteContainer>
-                <Sprite src={data.sprite} alt={data.name} />
-              </SpriteContainer>
-              <Title>{data.name}</Title>
-            </Header>
+        <>
+          <Header type={selectedPokemon.types[0].type.name || 'normal'}>
+            <CloseModal>
+              <CloseButton onClick={() => dispatch(setIsModalOpen(false))}>
+                X
+              </CloseButton>
+            </CloseModal>
+            <SpriteContainer>
+              <Sprite src={selectedPokemon.sprite} alt={selectedPokemon.name} />
+            </SpriteContainer>
+            <Title>{selectedPokemon.name}</Title>
+          </Header>
 
-            <p>Altura: {data.height}</p>
-            <p>Peso: {data.weight}</p>
-            <Pills>
-              {data.types.map((type) => (
-                <TypePill type={type.type} />
-              ))}
-            </Pills>
-          </>
-        )}
+          <p>Altura: {selectedPokemon.height}</p>
+          <p>Peso: {selectedPokemon.weight}</p>
+          <Pills>
+            {selectedPokemon.types.map((type) => (
+              <TypePill type={type.type} />
+            ))}
+          </Pills>
+        </>
       </Modal>
     </Background>
   );

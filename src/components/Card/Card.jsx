@@ -1,4 +1,7 @@
 import PropTypes from 'prop-types';
+import { openModal } from '../../features/pokemon/pokemonModalSlice';
+import { useDispatch } from 'react-redux';
+
 import {
   PokemonCard,
   Name,
@@ -7,7 +10,13 @@ import {
   Sprite,
 } from './PokemonCard.styles';
 
-const Card = ({ name, sprite, handleClick }) => {
+const Card = ({ pokemon }) => {
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(openModal(pokemon));
+  };
+
   return (
     <PokemonCard
       role="article"
@@ -16,11 +25,11 @@ const Card = ({ name, sprite, handleClick }) => {
       onClick={handleClick}
     >
       <Header>
-        <Name>{name}</Name>
+        <Name>{pokemon?.name}</Name>
       </Header>
 
       <SpriteContainer>
-        <Sprite src={sprite} alt={name} />
+        <Sprite src={pokemon?.sprite} alt={pokemon?.name} />
       </SpriteContainer>
     </PokemonCard>
   );
