@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types';
-import { PokemonCard } from './PokemonCard.styles';
+import {
+  PokemonCard,
+  Name,
+  Header,
+  SpriteContainer,
+  Sprite,
+} from './PokemonCard.styles';
 
-const Card = ({ name, handleClick }) => {
+const Card = ({ name, sprite, handleClick }) => {
   return (
     <PokemonCard
       role="article"
@@ -9,7 +15,13 @@ const Card = ({ name, handleClick }) => {
       className="card"
       onClick={handleClick}
     >
-      <p>{name}</p>
+      <Header>
+        <Name>{name}</Name>
+      </Header>
+
+      <SpriteContainer>
+        <Sprite src={sprite} alt={name} />
+      </SpriteContainer>
     </PokemonCard>
   );
 };

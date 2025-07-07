@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getPokemonList } from '../../api/pokemon';
+import { getDetailedPokemonList } from '../../api/pokemon';
 
 export const STATUS = {
   idle: 'idle',
@@ -17,7 +17,7 @@ const initialState = {
 export const fetchPokemons = createAsyncThunk(
   'pokemon/fetchPokemons',
   async () => {
-    const pokemons = await getPokemonList(20);
+    const pokemons = await getDetailedPokemonList(50);
     return pokemons;
   }
 );

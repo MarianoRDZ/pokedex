@@ -35,6 +35,7 @@ const List = () => {
         <Card
           key={pokemon.name}
           name={pokemon.name}
+          sprite={pokemon.sprite}
           handleClick={() => dispatch(fetchPokemonDetails(pokemon.name))}
         />
       ))}

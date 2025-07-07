@@ -2,10 +2,19 @@ import styled from 'styled-components';
 
 export const PokemonList = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: minmax(100px, auto);
-  grid-gap: 20px;
-  width: 100%;
-  height: auto;
-  background: red;
+  gap: 1rem;
+  padding: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (min-width: 1280px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
 `;
