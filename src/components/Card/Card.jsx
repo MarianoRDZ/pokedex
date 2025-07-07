@@ -1,10 +1,16 @@
 import PropTypes from 'prop-types';
+import { PokemonCard } from './PokemonCard.styles';
 
-const Card = ({ name }) => {
+const Card = ({ name, handleClick }) => {
   return (
-    <div role="article" aria-label={`Pokemon: ${name}`} className="card">
+    <PokemonCard
+      role="article"
+      aria-label={`Pokemon: ${name}`}
+      className="card"
+      onClick={handleClick}
+    >
       <p>{name}</p>
-    </div>
+    </PokemonCard>
   );
 };
 

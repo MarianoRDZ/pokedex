@@ -5,8 +5,10 @@ import Loading from '../Loading/Loading';
 import { STATUS } from '../../features/pokemon/pokemonSlice';
 import Error from '../Error/Error';
 import Card from '../Card/Card';
+import { fetchPokemonDetails } from '../../features/pokemon/pokemonDetailsSlice';
+import { PokemonList } from './List.styles';
 
-const PokemonList = () => {
+const List = () => {
   const dispatch = useDispatch();
 
   const pokemons = useSelector((state) => state.pokemon.pokemons);
@@ -28,12 +30,16 @@ const PokemonList = () => {
   }
 
   return (
-    <div className="pokemon-list">
+    <PokemonList>
       {pokemons.map((pokemon) => (
-        <Card key={pokemon.name} name={pokemon.name} />
+        <Card
+          key={pokemon.name}
+          name={pokemon.name}
+          handleClick={() => dispatch(fetchPokemonDetails(pokemon.name))}
+        />
       ))}
-    </div>
+    </PokemonList>
   );
 };
 
-export default PokemonList;
+export default List;
