@@ -15,6 +15,23 @@ export const getPokemonList = async (limit) => {
   return normalizedData;
 };
 
+export const getDetailedPokemonList = async (limit = 50) => {
+  const pokemonList = await getPokemonList(limit);
+
+  const detailedList = await Promise.all(
+    pokemonList.map(async (pokemon) => {
+      const detailsResponse = await API.get(pokemon.url);
+
+      return {
+        name: pokemon.name,
+        sprite: detailsResponse.data.sprites.front_default,
+      };
+    })
+  );
+
+  return detailedList;
+};
+
 export const getPokemonByName = async (name) => {
   const response = await API.get(`${ENDPOINT}/${name}`);
 
