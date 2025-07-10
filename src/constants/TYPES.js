@@ -13,7 +13,7 @@ const TYPES = {
   },
   GRASS: {
     name: 'grass',
-    color: '#78C850',
+    color: '#22C55E',
   },
   ELECTRIC: {
     name: 'electric',
