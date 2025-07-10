@@ -28,7 +28,7 @@ export const PokemonName = styled.h3`
   font-weight: bold;
   text-transform: capitalize;
   color: #1f2937;
-  padding: 3px;
+  margin: 0.5rem 0;
 `;
 
 export const SpriteContainer = styled.div`
