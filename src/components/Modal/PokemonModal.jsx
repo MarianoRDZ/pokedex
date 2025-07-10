@@ -1,19 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../features/pokemon/pokemonModalSlice';
-import Loading from '../Loading/Loading';
-import Error from '../Error/Error';
-import TypePill from '../TypePill/TypePill';
+import TypePill, { PILL_SIZE } from '../TypePill/TypePill';
 import { getPokemonTypes } from '../../utils/utils';
+import { convertPokemonIdToThreeDigits } from '../../utils/utils';
+import Sprite, { VARIANT } from '../Sprite/Sprite';
 import {
   Background,
   Modal,
   Title,
-  Sprite,
   Pills,
   CloseModal,
   CloseButton,
   Header,
-  SpriteContainer,
+  PokedexNumber,
+  Body,
 } from './PokemonModal.styles';
 
 export default function PokemonModal() {
@@ -34,19 +34,24 @@ export default function PokemonModal() {
                 X
               </CloseButton>
             </CloseModal>
-            <SpriteContainer>
-              <Sprite src={selectedPokemon.sprite} alt={selectedPokemon.name} />
-            </SpriteContainer>
+            <Sprite
+              src={selectedPokemon.sprite}
+              alt={selectedPokemon.name}
+              variant={VARIANT.xl}
+            />
             <Title>{selectedPokemon.name}</Title>
+            <PokedexNumber>
+              #{convertPokemonIdToThreeDigits(selectedPokemon.id)}
+            </PokedexNumber>
           </Header>
 
-          <p>Altura: {selectedPokemon.height}</p>
-          <p>Peso: {selectedPokemon.weight}</p>
-          <Pills>
-            {getPokemonTypes(selectedPokemon).map((type) => (
-              <TypePill type={type.type} />
-            ))}
-          </Pills>
+          <Body>
+            <Pills>
+              {getPokemonTypes(selectedPokemon).map((type) => (
+                <TypePill type={type.type} size={PILL_SIZE.xl} />
+              ))}
+            </Pills>
+          </Body>
         </>
       </Modal>
     </Background>

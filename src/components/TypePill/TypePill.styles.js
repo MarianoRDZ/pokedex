@@ -2,15 +2,16 @@ import styled from 'styled-components';
 import TYPES from '../../constants/TYPES';
 
 export const Pill = styled.div`
-  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: ${({ size }) => size.height || 20}px;
   background-color: ${({ type }) => TYPES[type.toUpperCase()]?.color || 'gray'};
-  text-align: center;
-  border-radius: 20px;
+  border-radius: 15px;
 `;
 
 export const TypeName = styled.p`
-  font-size: 0.75rem;
-  line-height: 1rem;
+  font-size: ${({ size }) => size.fontSize || 0.75}rem;
   color: #fff;
   font-weight: bold;
   text-transform: capitalize;

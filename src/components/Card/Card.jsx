@@ -5,16 +5,16 @@ import {
   convertPokemonIdToThreeDigits,
   getPokemonTypes,
 } from '../../utils/utils';
-import TypePill from '../TypePill/TypePill';
+import TypePill, { PILL_SIZE } from '../TypePill/TypePill';
 
 import {
   PokemonCard,
   PokemonName,
-  SpriteContainer,
-  Sprite,
   PokemonId,
   PokemonTypes,
 } from './PokemonCard.styles';
+import { VARIANT } from '../Sprite/Sprite';
+import Sprite from '../Sprite/Sprite';
 
 const Card = ({ pokemon }) => {
   const dispatch = useDispatch();
@@ -33,13 +33,18 @@ const Card = ({ pokemon }) => {
       <PokemonId>
         <p>#{convertPokemonIdToThreeDigits(pokemon.id)}</p>
       </PokemonId>
-      <SpriteContainer>
-        <Sprite src={pokemon?.sprite} alt={pokemon?.name} />
-      </SpriteContainer>
+      {/*<SpriteContainer>
+        <Sprite
+          src={pokemon?.sprite}
+          alt={pokemon?.name}
+          variant={VARIANT.xl}
+        />
+      </SpriteContainer>*/}
+      <Sprite src={pokemon.sprite} alt={pokemon.name} variant={VARIANT.sm} />
       <PokemonName>{pokemon?.name}</PokemonName>
       <PokemonTypes>
-        {getPokemonTypes(pokemon).map((pokemon) => (
-          <TypePill key={pokemon.name} type={pokemon.type} />
+        {getPokemonTypes(pokemon).map((p, i) => (
+          <TypePill key={p.i} type={p.type} size={PILL_SIZE.sm} />
         ))}
       </PokemonTypes>
     </PokemonCard>
@@ -47,7 +52,12 @@ const Card = ({ pokemon }) => {
 };
 
 Card.propTypes = {
-  name: PropTypes.string.isRequired,
+  pokemon: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    sprite: PropTypes.string.isRequired,
+    types: PropTypes.array.isRequired,
+  }).isRequired,
 };
 
 export default Card;
