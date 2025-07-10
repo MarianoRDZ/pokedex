@@ -46,117 +46,101 @@ describe('getDetailedPokemonList', () => {
     vi.clearAllMocks();
   });
 
-  it('should return a list of pokemons with name and sprite', async () => {
+  it('should return a list of detailed pokemons', async () => {
     const mockBasicList = {
       data: {
         results: [
           { name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/pikachu' },
-          {
-            name: 'bulbasaur',
-            url: 'https://pokeapi.co/api/v2/pokemon/bulbasaur',
-          },
         ],
       },
     };
 
-    const mockDetailResponse = (name) => ({
+    const mockPikachuDetail = {
       data: {
+        name: 'pikachu',
+        id: 25,
+        types: [{ slot: 1, type: { name: 'electric' } }],
+        height: 4,
+        weight: 60,
         sprites: {
-          front_default: `sprite_of_${name}`,
+          other: {
+            'official-artwork': {
+              front_default: 'https://example.com/pikachu.png',
+            },
+          },
         },
+        stats: [
+          { base_stat: 35, stat: { name: 'hp' } },
+          { base_stat: 55, stat: { name: 'attack' } },
+          { base_stat: 40, stat: { name: 'defense' } },
+          { base_stat: 90, stat: { name: 'speed' } },
+        ],
       },
-    });
+    };
 
     API.get.mockImplementation((url) => {
-      if (url.startsWith('/pokemon')) {
+      if (url === '/pokemon/?limit=50') {
         return Promise.resolve(mockBasicList);
-      } else if (url.includes('pikachu')) {
-        return Promise.resolve(mockDetailResponse('pikachu'));
-      } else if (url.includes('bulbasaur')) {
-        return Promise.resolve(mockDetailResponse('bulbasaur'));
       }
-
-      return Promise.reject(new Error('Unknown URL: ' + url));
+      if (url === 'https://pokeapi.co/api/v2/pokemon/pikachu') {
+        return Promise.resolve(mockPikachuDetail);
+      }
+      return Promise.reject(new Error('Unknown URL'));
     });
 
     const result = await getDetailedPokemonList(50);
 
     expect(result).toEqual([
-      { name: 'pikachu', sprite: 'sprite_of_pikachu' },
-      { name: 'bulbasaur', sprite: 'sprite_of_bulbasaur' },
+      {
+        name: 'pikachu',
+        id: 25,
+        types: [{ slot: 1, type: { name: 'electric' } }],
+        height: 4,
+        weight: 60,
+        sprite: 'https://example.com/pikachu.png',
+        stats: {
+          hp: { base_stat: 35, stat: { name: 'hp' } },
+          attack: { base_stat: 55, stat: { name: 'attack' } },
+          defense: { base_stat: 40, stat: { name: 'defense' } },
+          speed: { base_stat: 90, stat: { name: 'speed' } },
+        },
+      },
     ]);
 
     expect(API.get).toHaveBeenCalledWith('/pokemon/?limit=50');
     expect(API.get).toHaveBeenCalledWith(
       'https://pokeapi.co/api/v2/pokemon/pikachu'
     );
-    expect(API.get).toHaveBeenCalledWith(
-      'https://pokeapi.co/api/v2/pokemon/bulbasaur'
-    );
   });
 
-  it('should return an error if the API fails', async () => {
-    API.get.mockRejectedValue(new Error('API down'));
+  it('should return empty array if base list is empty', async () => {
+    API.get.mockResolvedValueOnce({ data: { results: [] } });
+
+    const result = await getDetailedPokemonList();
+    expect(result).toEqual([]);
+  });
+
+  it('should throw error if fetching base list fails', async () => {
+    API.get.mockRejectedValueOnce(new Error('API down'));
 
     await expect(getDetailedPokemonList()).rejects.toThrow('API down');
   });
 
-  it('should return empty if no data is available', async () => {
-    API.get.mockImplementationOnce(() =>
-      Promise.resolve({ data: { results: [] } })
-    );
-
-    const result = await getDetailedPokemonList();
-    expect(result).toEqual([]);
-    expect(API.get).toHaveBeenCalledTimes(1);
-  });
-});
-
-describe('getPokemonByName', () => {
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('should return a single pokemon', async () => {
-    const mockResponse = {
+  it('should throw error if one of the detailed fetches fails', async () => {
+    const mockBasicList = {
       data: {
-        name: 'pokemon_name',
-        id: '1',
-        types: ['normal', 'fire'],
-        height: 40,
-        weight: 20,
-        sprites: {
-          front_default: 'sprite_url',
-        },
+        results: [
+          { name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/pikachu' },
+        ],
       },
     };
 
-    API.get.mockResolvedValue(mockResponse);
+    API.get
+      .mockResolvedValueOnce(mockBasicList) // Base list
+      .mockRejectedValueOnce(new Error('Detail fetch failed')); // Detail fails
 
-    const result = await getPokemonByName(mockResponse.data.name);
-
-    expect(result).toEqual({
-      name: 'pokemon_name',
-      id: '1',
-      types: ['normal', 'fire'],
-      height: 40,
-      weight: 20,
-      sprite: 'sprite_url',
-    });
-
-    expect(API.get).toHaveBeenCalledWith('/pokemon/pokemon_name');
+    await expect(getDetailedPokemonList()).rejects.toThrow(
+      'Detail fetch failed'
+    );
   });
-
-  /*it('should return an error if the API fails', async () => {
-    API.get.mockRejectedValue(new Error('API down'));
-
-    await expect(getPokemonList()).rejects.toThrow('API down');
-  });
-
-  it('should return empty if no data is available', async () => {
-    API.get.mockResolvedValue({ data: { results: [] } });
-
-    const result = await getPokemonList();
-    expect(result).toEqual([]);
-  });*/
 });

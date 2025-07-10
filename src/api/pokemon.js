@@ -29,22 +29,21 @@ export const getDetailedPokemonList = async (limit = 50) => {
         height: response.data.height,
         weight: response.data.weight,
         sprite: response.data.sprites.other['official-artwork'].front_default,
+        stats: {
+          hp: response.data.stats.find((stats) => stats.stat.name === 'hp'),
+          attack: response.data.stats.find(
+            (stats) => stats.stat.name === 'attack'
+          ),
+          defense: response.data.stats.find(
+            (stats) => stats.stat.name === 'defense'
+          ),
+          speed: response.data.stats.find(
+            (stats) => stats.stat.name === 'speed'
+          ),
+        },
       };
     })
   );
 
   return detailedList;
-};
-
-export const getPokemonByName = async (name) => {
-  const response = await API.get(`${ENDPOINT}/${name}`);
-
-  return {
-    name: response.data.name,
-    id: response.data.id,
-    types: response.data.types,
-    height: response.data.height,
-    weight: response.data.weight,
-    sprite: response.data.sprites.other['official-artwork'].front_default,
-  };
 };
