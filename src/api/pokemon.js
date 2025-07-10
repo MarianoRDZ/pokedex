@@ -28,7 +28,7 @@ export const getDetailedPokemonList = async (limit = 50) => {
         types: response.data.types,
         height: response.data.height,
         weight: response.data.weight,
-        sprite: response.data.sprites.front_default,
+        sprite: response.data.sprites.other['official-artwork'].front_default,
       };
     })
   );
@@ -45,6 +45,6 @@ export const getPokemonByName = async (name) => {
     types: response.data.types,
     height: response.data.height,
     weight: response.data.weight,
-    sprite: response.data.sprites.front_default,
+    sprite: response.data.sprites.other['official-artwork'].front_default,
   };
 };

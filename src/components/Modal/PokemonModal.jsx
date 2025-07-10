@@ -3,6 +3,7 @@ import { closeModal } from '../../features/pokemon/pokemonModalSlice';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
 import TypePill from '../TypePill/TypePill';
+import { getPokemonTypes } from '../../utils/utils';
 import {
   Background,
   Modal,
@@ -42,7 +43,7 @@ export default function PokemonModal() {
           <p>Altura: {selectedPokemon.height}</p>
           <p>Peso: {selectedPokemon.weight}</p>
           <Pills>
-            {selectedPokemon.types.map((type) => (
+            {getPokemonTypes(selectedPokemon).map((type) => (
               <TypePill type={type.type} />
             ))}
           </Pills>

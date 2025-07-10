@@ -1,13 +1,19 @@
 import PropTypes from 'prop-types';
 import { openModal } from '../../features/pokemon/pokemonModalSlice';
 import { useDispatch } from 'react-redux';
+import {
+  convertPokemonIdToThreeDigits,
+  getPokemonTypes,
+} from '../../utils/utils';
+import TypePill from '../TypePill/TypePill';
 
 import {
   PokemonCard,
-  Name,
-  Header,
+  PokemonName,
   SpriteContainer,
   Sprite,
+  PokemonId,
+  PokemonTypes,
 } from './PokemonCard.styles';
 
 const Card = ({ pokemon }) => {
@@ -24,13 +30,18 @@ const Card = ({ pokemon }) => {
       className="card"
       onClick={handleClick}
     >
-      <Header>
-        <Name>{pokemon?.name}</Name>
-      </Header>
-
+      <PokemonId>
+        <p>#{convertPokemonIdToThreeDigits(pokemon.id)}</p>
+      </PokemonId>
       <SpriteContainer>
         <Sprite src={pokemon?.sprite} alt={pokemon?.name} />
       </SpriteContainer>
+      <PokemonName>{pokemon?.name}</PokemonName>
+      <PokemonTypes>
+        {getPokemonTypes(pokemon).map((pokemon) => (
+          <TypePill key={pokemon.name} type={pokemon.type} />
+        ))}
+      </PokemonTypes>
     </PokemonCard>
   );
 };

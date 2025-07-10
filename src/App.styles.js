@@ -2,6 +2,6 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   margin: 0 auto;
-  width: 1000px;
-  background: red;
+  min-width: 1024px;
+  background: #eff2fe;
 `;
