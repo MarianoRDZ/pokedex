@@ -136,8 +136,8 @@ describe('getDetailedPokemonList', () => {
     };
 
     API.get
-      .mockResolvedValueOnce(mockBasicList) // Base list
-      .mockRejectedValueOnce(new Error('Detail fetch failed')); // Detail fails
+      .mockResolvedValueOnce(mockBasicList)
+      .mockRejectedValueOnce(new Error('Detail fetch failed'));
 
     await expect(getDetailedPokemonList()).rejects.toThrow(
       'Detail fetch failed'
