@@ -8,23 +8,21 @@ import {
   Title,
 } from './ModalHeader.styles';
 
-const ModalHeader = ({ selectedPokemon }) => {
-  return (
-    <Header type={selectedPokemon.types[0].type.name || 'normal'}>
-      <CloseModal>
-        <CloseButton onClick={() => dispatch(closeModal())}>X</CloseButton>
-      </CloseModal>
-      <Sprite
-        src={selectedPokemon.sprite}
-        alt={selectedPokemon.name}
-        variant={VARIANT.xl}
-      />
-      <Title>{selectedPokemon.name}</Title>
-      <PokedexNumber>
-        #{convertPokemonIdToThreeDigits(selectedPokemon.id)}
-      </PokedexNumber>
-    </Header>
-  );
-};
+const ModalHeader = ({ selectedPokemon, handleClose }) => (
+  <Header type={selectedPokemon.types[0].type.name || 'normal'}>
+    <CloseModal>
+      <CloseButton onClick={() => handleClose()}>X</CloseButton>
+    </CloseModal>
+    <Sprite
+      src={selectedPokemon.sprite}
+      alt={selectedPokemon.name}
+      variant={VARIANT.xl}
+    />
+    <Title>{selectedPokemon.name}</Title>
+    <PokedexNumber>
+      #{convertPokemonIdToThreeDigits(selectedPokemon.id)}
+    </PokedexNumber>
+  </Header>
+);
 
 export default ModalHeader;

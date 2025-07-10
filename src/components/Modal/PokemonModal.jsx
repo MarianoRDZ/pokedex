@@ -10,12 +10,19 @@ export default function PokemonModal() {
     (state) => state.pokemonModal
   );
 
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
+
   if (!isOpen || !selectedPokemon) return null;
 
   return (
-    <Background onClick={() => dispatch(closeModal())}>
+    <Background onClick={() => handleClose()}>
       <Modal onClick={(e) => e.stopPropagation()}>
-        <ModalHeader selectedPokemon={selectedPokemon} />
+        <ModalHeader
+          selectedPokemon={selectedPokemon}
+          handleClose={handleClose}
+        />
         <ModalBody selectedPokemon={selectedPokemon} />
       </Modal>
     </Background>

@@ -13,3 +13,7 @@ export const Pills = styled.div`
   justify-content: center;
   gap: 20px;
 `;
+
+export const StatsContainer = styled.div`
+  width: 100%;
+`;
