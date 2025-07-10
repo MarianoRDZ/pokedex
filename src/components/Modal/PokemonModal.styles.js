@@ -1,6 +1,16 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import TYPES from '../../constants/TYPES';
 import { darkenHex } from '../../utils/color';
+
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+const fadeOut = keyframes`
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(50px); }
+`;
 
 export const CloseModal = styled.div`
   display: flex;
@@ -45,6 +55,7 @@ export const Modal = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  animation: ${fadeIn} 0.3s ease-out;
 `;
 
 export const Title = styled.h2`
@@ -63,10 +74,8 @@ export const SpriteContainer = styled.div`
 
 export const Sprite = styled.img`
   background: none;
-  height: 250px;
-  width: 250px;
+  height: 150px;
   image-rendering: pixelated;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
 `;
 
 export const Pills = styled.div`

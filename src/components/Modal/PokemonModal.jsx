@@ -29,7 +29,7 @@ export default function PokemonModal() {
         <>
           <Header type={selectedPokemon.types[0].type.name || 'normal'}>
             <CloseModal>
-              <CloseButton onClick={() => dispatch(setIsModalOpen(false))}>
+              <CloseButton onClick={() => dispatch(closeModal())}>
                 X
               </CloseButton>
             </CloseModal>

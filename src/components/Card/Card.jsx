@@ -20,7 +20,7 @@ const Card = ({ pokemon }) => {
   return (
     <PokemonCard
       role="article"
-      aria-label={`Pokemon: ${name}`}
+      aria-label={`Pokemon: ${pokemon.name}`}
       className="card"
       onClick={handleClick}
     >

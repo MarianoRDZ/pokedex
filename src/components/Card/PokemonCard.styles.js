@@ -31,6 +31,7 @@ export const SpriteContainer = styled.div`
 
 export const Sprite = styled.img`
   background: none;
-  image-rendering: pixelated;
+  width: auto;
+  height: auto;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
 `;
