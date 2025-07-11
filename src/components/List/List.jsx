@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPokemons } from '../../features/pokemon/pokemonSlice';
+import { fetchPokemons } from '../../features/pokemon/pokemonThunks';
 import Loading from '../Loading/Loading';
 import { STATUS } from '../../features/pokemon/pokemonSlice';
 import Error from '../Error/Error';
