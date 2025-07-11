@@ -33,13 +33,6 @@ const Card = ({ pokemon }) => {
       <PokemonId>
         <p>#{convertPokemonIdToThreeDigits(pokemon.id)}</p>
       </PokemonId>
-      {/*<SpriteContainer>
-        <Sprite
-          src={pokemon?.sprite}
-          alt={pokemon?.name}
-          variant={VARIANT.xl}
-        />
-      </SpriteContainer>*/}
       <Sprite src={pokemon.sprite} alt={pokemon.name} variant={VARIANT.sm} />
       <PokemonName>{pokemon?.name}</PokemonName>
       <PokemonTypes>
