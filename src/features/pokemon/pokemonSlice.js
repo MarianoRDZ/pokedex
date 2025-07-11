@@ -13,6 +13,7 @@ const initialState = {
   status: STATUS.idle,
   error: null,
   isModalOpen: false,
+  search: '',
 };
 
 export const fetchPokemons = createAsyncThunk(
@@ -32,6 +33,9 @@ const pokemonSlice = createSlice({
       state.data = null;
       state.status = STATUS.idle;
     },
+    setSearch: (state, action) => {
+      state.search = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -49,5 +53,5 @@ const pokemonSlice = createSlice({
   },
 });
 
-export const { closeModal } = pokemonSlice.actions;
+export const { closeModal, setSearch } = pokemonSlice.actions;
 export default pokemonSlice.reducer;

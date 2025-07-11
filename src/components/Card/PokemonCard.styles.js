@@ -12,6 +12,7 @@ export const PokemonCard = styled.div`
   aspect-ratio: 1/1;
   transition: 0.1s ease-out;
   cursor: pointer;
+  max-width: 200px;
 
   &:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);

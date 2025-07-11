@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeModal } from '../../features/pokemon/pokemonSlice';
 import { fetchPokemons } from '../../features/pokemon/pokemonSlice';
 import Loading from '../Loading/Loading';
 import { STATUS } from '../../features/pokemon/pokemonSlice';
@@ -12,16 +11,13 @@ const List = () => {
   const dispatch = useDispatch();
 
   const pokemons = useSelector((state) => state.pokemon.pokemons);
+  const search = useSelector((state) => state.pokemon.search);
   const status = useSelector((state) => state.pokemon.status);
   const error = useSelector((state) => state.pokemon.error);
 
-  /*const getPokemonDetails = (selectedPokemon) => {
-    const pokemon = pokemons.filter(
-      (pokemon) => pokemon.name === selectedPokemon
-    );
-
-    return pokemon;
-  };*/
+  const filteredPokemons = pokemons.filter((pokemon) =>
+    pokemon.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   useEffect(() => {
     if (status === STATUS.idle) {
@@ -39,7 +35,7 @@ const List = () => {
 
   return (
     <PokemonList>
-      {pokemons.map((pokemon) => (
+      {filteredPokemons.map((pokemon) => (
         <Card key={pokemon.name} pokemon={pokemon} handleClick={() => null} />
       ))}
     </PokemonList>
