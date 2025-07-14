@@ -5,7 +5,7 @@ import {
   convertPokemonIdToThreeDigits,
   getPokemonTypes,
 } from '../../utils/utils';
-import TypePill, { PILL_SIZE } from '../TypePill/TypePill';
+import TypePill from '../TypePill/TypePill';
 
 import {
   PokemonCard,
@@ -36,8 +36,8 @@ const Card = ({ pokemon }) => {
       <Sprite src={pokemon.sprite} alt={pokemon.name} variant={VARIANT.sm} />
       <PokemonName>{pokemon?.name}</PokemonName>
       <PokemonTypes>
-        {getPokemonTypes(pokemon).map((p, i) => (
-          <TypePill key={p.i} type={p.type} size={PILL_SIZE.sm} />
+        {getPokemonTypes(pokemon).map((p, index) => (
+          <TypePill key={index} type={p.type} size={'sm'} />
         ))}
       </PokemonTypes>
     </PokemonCard>
