@@ -1,11 +1,13 @@
-import reducer, { fetchPokemons } from './pokemonSlice';
-import { STATUS } from './pokemonSlice';
+import reducer, { STATUS } from './pokemonSlice';
+import { fetchPokemons } from './pokemonThunks';
 
 describe('pokemonSlice reducer', () => {
   const initialState = {
     pokemons: [],
     status: STATUS.idle,
     error: null,
+    isModalOpen: false,
+    search: '',
   };
 
   it('should handle initial state', () => {

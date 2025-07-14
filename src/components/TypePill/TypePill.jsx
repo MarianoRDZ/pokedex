@@ -1,17 +1,6 @@
 import PropTypes from 'prop-types';
 import { Pill, TypeName } from './TypePill.styles';
 
-export const PILL_SIZE = {
-  sm: {
-    height: 20,
-    fontSize: 0.75,
-  },
-  xl: {
-    height: 30,
-    fontSize: 1,
-  },
-};
-
 const TypePill = ({ type, size }) => {
   const { name } = type;
 
@@ -26,6 +15,7 @@ TypePill.propTypes = {
   type: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
+  size: PropTypes.oneOf(['sm', 'xl']).isRequired,
 };
 
 export default TypePill;
