@@ -1,5 +1,5 @@
 import { getPokemonTypes } from '../../utils/utils';
-import TypePill, { PILL_SIZE } from '../TypePill/TypePill';
+import TypePill from '../TypePill/TypePill';
 import Stats from '../Stats/Stats.jsx';
 import { Body, Pills, StatsContainer } from './ModalBody.styles.js';
 
@@ -7,7 +7,7 @@ const ModalBody = ({ selectedPokemon }) => (
   <Body>
     <Pills>
       {getPokemonTypes(selectedPokemon).map((type) => (
-        <TypePill type={type.type} size={PILL_SIZE.xl} />
+        <TypePill type={type.type} size={'xl'} />
       ))}
     </Pills>
 
