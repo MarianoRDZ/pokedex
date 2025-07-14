@@ -16,7 +16,6 @@ const Searchbar = () => {
   }, [inputValue, dispatch]);
 
   const handleChange = (e) => {
-    console.log(e.target.value);
     setInputValue(e.target.value);
   };
 
