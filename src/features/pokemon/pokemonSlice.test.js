@@ -6,7 +6,7 @@ describe('pokemonSlice reducer', () => {
     pokemons: [],
     status: STATUS.idle,
     error: null,
-    isModalOpen: false,
+    isOpen: false,
     search: '',
   };
 
