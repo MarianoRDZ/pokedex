@@ -1,9 +1,5 @@
 import API from './axios';
-import {
-  getPokemonList,
-  getDetailedPokemonList,
-  getPokemonByName,
-} from './pokemon';
+import { getPokemonList, getDetailedPokemonList } from './pokemon';
 
 vi.mock('./axios');
 
@@ -38,6 +34,15 @@ describe('getPokemonList', () => {
 
     const result = await getPokemonList();
     expect(result).toEqual([]);
+  });
+
+  it('should respect the custom limit', async () => {
+    const mockList = { data: { results: [] } };
+    API.get.mockResolvedValue(mockList);
+
+    await getPokemonList(10);
+
+    expect(API.get).toHaveBeenCalledWith('/pokemon/?limit=10');
   });
 });
 
