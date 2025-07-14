@@ -8,11 +8,9 @@ const mockStore = configureStore([]);
 describe('Modal', () => {
   it('should not render when isOpen is false', () => {
     const store = mockStore({
-      pokemonDetails: {
+      pokemonModal: {
         isOpen: false,
-        status: 'idle',
-        data: null,
-        error: null,
+        selectedPokemon: null,
       },
     });
 
@@ -22,6 +20,6 @@ describe('Modal', () => {
       </Provider>
     );
 
-    expect(screen.queryByText(/Altura/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/HP/i)).not.toBeInTheDocument();
   });
 });
