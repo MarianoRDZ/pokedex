@@ -1,4 +1,4 @@
-const Error = (error) => {
+const Error = ({ error }) => {
   return <p>Error: {error}</p>;
 };
 
