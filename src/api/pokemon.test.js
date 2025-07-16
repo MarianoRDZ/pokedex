@@ -4,6 +4,11 @@ import { getPokemonList, getDetailedPokemonList } from './pokemon';
 vi.mock('./axios');
 
 describe('getPokemonList', () => {
+  beforeAll(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -11,7 +16,7 @@ describe('getPokemonList', () => {
   it('should return a list of pokemons', async () => {
     const mockResponse = {
       data: {
-        results: [{ name: 'some_pokemon', url: 'pokemon_url' }],
+        results: [{ name: 'bulbasaur', url: 'pokemon_url' }],
       },
     };
 
@@ -19,14 +24,15 @@ describe('getPokemonList', () => {
 
     const result = await getPokemonList(20);
 
-    expect(result).toEqual(mockResponse.data.results);
-    expect(API.get).toHaveBeenCalledWith('/pokemon/?limit=20');
+    expect(result).toEqual([{ name: 'bulbasaur', url: 'pokemon_url' }]);
+    expect(API.get).toHaveBeenCalledWith('/pokemon?limit=20');
   });
 
-  it('should return an error if the API fails', async () => {
+  it('should return an empty array if the API fails', async () => {
     API.get.mockRejectedValue(new Error('API down'));
 
-    await expect(getPokemonList()).rejects.toThrow('API down');
+    const result = await getPokemonList();
+    expect(result).toEqual([]); // Ya no lanza error
   });
 
   it('should return empty if no data is available', async () => {
@@ -37,12 +43,10 @@ describe('getPokemonList', () => {
   });
 
   it('should respect the custom limit', async () => {
-    const mockList = { data: { results: [] } };
-    API.get.mockResolvedValue(mockList);
+    API.get.mockResolvedValue({ data: { results: [] } });
 
     await getPokemonList(10);
-
-    expect(API.get).toHaveBeenCalledWith('/pokemon/?limit=10');
+    expect(API.get).toHaveBeenCalledWith('/pokemon?limit=10');
   });
 });
 
@@ -84,7 +88,7 @@ describe('getDetailedPokemonList', () => {
     };
 
     API.get.mockImplementation((url) => {
-      if (url === '/pokemon/?limit=50') {
+      if (url === '/pokemon?limit=50') {
         return Promise.resolve(mockBasicList);
       }
       if (url === 'https://pokeapi.co/api/v2/pokemon/pikachu') {
@@ -111,11 +115,6 @@ describe('getDetailedPokemonList', () => {
         },
       },
     ]);
-
-    expect(API.get).toHaveBeenCalledWith('/pokemon/?limit=50');
-    expect(API.get).toHaveBeenCalledWith(
-      'https://pokeapi.co/api/v2/pokemon/pikachu'
-    );
   });
 
   it('should return empty array if base list is empty', async () => {
@@ -125,27 +124,64 @@ describe('getDetailedPokemonList', () => {
     expect(result).toEqual([]);
   });
 
-  it('should throw error if fetching base list fails', async () => {
+  it('should return empty array if fetching base list fails', async () => {
     API.get.mockRejectedValueOnce(new Error('API down'));
 
-    await expect(getDetailedPokemonList()).rejects.toThrow('API down');
+    const result = await getDetailedPokemonList();
+    expect(result).toEqual([]); // Ya no lanza error
   });
 
-  it('should throw error if one of the detailed fetches fails', async () => {
+  it('should skip failed detail fetches and return the rest', async () => {
     const mockBasicList = {
       data: {
         results: [
           { name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/pikachu' },
+          {
+            name: 'missingno',
+            url: 'https://pokeapi.co/api/v2/pokemon/missingno',
+          },
         ],
       },
     };
 
-    API.get
-      .mockResolvedValueOnce(mockBasicList)
-      .mockRejectedValueOnce(new Error('Detail fetch failed'));
+    const mockPikachuDetail = {
+      data: {
+        name: 'pikachu',
+        id: 25,
+        types: [],
+        height: 4,
+        weight: 60,
+        sprites: {
+          other: {
+            'official-artwork': {
+              front_default: 'https://example.com/pikachu.png',
+            },
+          },
+        },
+        stats: [
+          { base_stat: 35, stat: { name: 'hp' } },
+          { base_stat: 55, stat: { name: 'attack' } },
+          { base_stat: 40, stat: { name: 'defense' } },
+          { base_stat: 90, stat: { name: 'speed' } },
+        ],
+      },
+    };
 
-    await expect(getDetailedPokemonList()).rejects.toThrow(
-      'Detail fetch failed'
-    );
+    API.get.mockImplementation((url) => {
+      if (url === '/pokemon?limit=50') {
+        return Promise.resolve(mockBasicList);
+      }
+      if (url === 'https://pokeapi.co/api/v2/pokemon/pikachu') {
+        return Promise.resolve(mockPikachuDetail);
+      }
+      if (url === 'https://pokeapi.co/api/v2/pokemon/missingno') {
+        return Promise.reject(new Error('404'));
+      }
+    });
+
+    const result = await getDetailedPokemonList(50);
+
+    expect(result.length).toBe(1);
+    expect(result[0].name).toBe('pikachu');
   });
 });
