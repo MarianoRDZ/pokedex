@@ -58,7 +58,7 @@ export const getDetailedPokemonList = async (limit = 50) => {
         };
       } catch (error) {
         console.error(`Error fetching details for Pokémon at ${url}:`, error);
-        return null; // Fallback: return null so it can be filtered out
+        return null;
       }
     })
   );

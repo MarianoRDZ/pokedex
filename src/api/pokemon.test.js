@@ -32,7 +32,7 @@ describe('getPokemonList', () => {
     API.get.mockRejectedValue(new Error('API down'));
 
     const result = await getPokemonList();
-    expect(result).toEqual([]); // Ya no lanza error
+    expect(result).toEqual([]);
   });
 
   it('should return empty if no data is available', async () => {
@@ -128,7 +128,7 @@ describe('getDetailedPokemonList', () => {
     API.get.mockRejectedValueOnce(new Error('API down'));
 
     const result = await getDetailedPokemonList();
-    expect(result).toEqual([]); // Ya no lanza error
+    expect(result).toEqual([]);
   });
 
   it('should skip failed detail fetches and return the rest', async () => {
