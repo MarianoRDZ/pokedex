@@ -11,6 +11,8 @@ Header.Subtitle = ({ children, ...props }) => (
   <HeaderSubtitle {...props}>{children}</HeaderSubtitle>
 );
 
-Header.Searchbar = ({ children }) => <Container>{children}</Container>;
+Header.Searchbar = ({ children, ...props }) => (
+  <Container {...props}>{children}</Container>
+);
 
 export default Header;
