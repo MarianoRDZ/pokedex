@@ -8,4 +8,5 @@ export const PokemonList = styled.div`
   margin: 0 auto;
   width: 100%;
   max-width: 1440px;
+  background: #eff2fe;
 `;
