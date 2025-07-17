@@ -53,7 +53,7 @@ http://localhost:5173
 
 ## Uso con Docker
 
-### Desarrollo (hot reload con Vite)
+### Desarrollo
 
 #### 1. Levantá el contenedor de desarrollo
 
@@ -65,7 +65,7 @@ docker-compose up pokedex-dev --build
 
 http://localhost:5173
 
-### Producción (build y servir con Nginx)
+### Producción
 
 #### 1. Levantá el contenedor de producción
 
@@ -88,4 +88,4 @@ npm test
 ##### Notas
 
 - En modo desarrollo con Docker, el proyecto se monta como volumen para habilitar hot reload
-- En producción, la app se sirve como archivos estáticos vía Nginx para mejor rendimiento.
+- En producción, la app se sirve como archivos estáticos vía Nginx para mejor rendimiento
