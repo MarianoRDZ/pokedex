@@ -10,11 +10,11 @@ export const Container = styled.div`
   padding: 20px;
 `;
 
-export const Title = styled.h1`
+export const HeaderTitle = styled.h1`
   color: #111827;
   margin: 0 0 10px 0;
 `;
 
-export const Subtitle = styled.p`
+export const HeaderSubtitle = styled.p`
   color: #4b5563;
 `;
