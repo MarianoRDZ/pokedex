@@ -1,56 +1,63 @@
-import PropTypes from 'prop-types';
-import { openModal } from '../../features/pokemon/pokemonModalSlice';
-import { useDispatch } from 'react-redux';
-import {
-  convertPokemonIdToThreeDigits,
-  getPokemonTypes,
-} from '../../utils/utils';
-import TypePill from '../TypePill/TypePill';
-
 import {
   PokemonCard,
   PokemonName,
   PokemonId,
   PokemonTypes,
 } from './PokemonCard.styles';
-import { VARIANT } from '../Sprite/Sprite';
 import Sprite from '../Sprite/Sprite';
+import PropTypes from 'prop-types';
 
-const Card = ({ pokemon }) => {
-  const dispatch = useDispatch();
-
-  const handleClick = () => {
-    dispatch(openModal(pokemon));
-  };
-
-  return (
-    <PokemonCard
-      role="article"
-      aria-label={`Pokemon: ${pokemon.name}`}
-      className="card"
-      onClick={handleClick}
-    >
-      <PokemonId>
-        <p>#{convertPokemonIdToThreeDigits(pokemon.id)}</p>
-      </PokemonId>
-      <Sprite src={pokemon.sprite} alt={pokemon.name} variant={VARIANT.sm} />
-      <PokemonName>{pokemon?.name}</PokemonName>
-      <PokemonTypes>
-        {getPokemonTypes(pokemon).map((p, index) => (
-          <TypePill key={index} type={p.type} size={'sm'} />
-        ))}
-      </PokemonTypes>
-    </PokemonCard>
-  );
+const Card = ({ children, ...props }) => {
+  return <PokemonCard {...props}>{children}</PokemonCard>;
 };
+
+const Id = ({ children, ...props }) => (
+  <PokemonId {...props}>
+    <p>{children}</p>
+  </PokemonId>
+);
+
+const Image = ({ ...props }) => <Sprite {...props} />;
+
+const Name = ({ children, ...props }) => (
+  <PokemonName {...props}>{children}</PokemonName>
+);
+
+const Types = ({ children, ...props }) => (
+  <PokemonTypes {...props}>{children}</PokemonTypes>
+);
+
+Card.Id = Id;
+Card.Image = Image;
+Card.Name = Name;
+Card.Types = Types;
 
 Card.propTypes = {
-  pokemon: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    sprite: PropTypes.string.isRequired,
-    types: PropTypes.array.isRequired,
-  }).isRequired,
+  children: PropTypes.node.isRequired,
 };
+
+Id.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+Image.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  variant: PropTypes.oneOf(['sm', 'lg']),
+};
+
+Name.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+Types.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+Card.displayName = 'Card';
+Id.displayName = 'Card.Id';
+Image.displayName = 'Card.Image';
+Name.displayName = 'Card.Name';
+Types.displayName = 'Card.Types';
 
 export default Card;

@@ -3,9 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPokemons } from '../../features/pokemon/pokemonThunks';
 import Loading from '../Loading/Loading';
 import { STATUS } from '../../features/pokemon/pokemonSlice';
+import { openModal } from '../../features/pokemon/pokemonModalSlice';
+import {
+  convertPokemonIdToThreeDigits,
+  getPokemonTypes,
+} from '../../utils/utils';
 import Error from '../Error/Error';
 import Card from '../Card/Card';
 import { PokemonList } from './List.styles';
+import { VARIANT } from '../Sprite/Sprite';
+import TypePill from '../TypePill/TypePill';
 
 const List = () => {
   const dispatch = useDispatch();
@@ -36,7 +43,20 @@ const List = () => {
   return (
     <PokemonList>
       {filteredPokemons.map((pokemon) => (
-        <Card key={pokemon.name} pokemon={pokemon} handleClick={() => null} />
+        <Card key={pokemon.name} onClick={() => dispatch(openModal(pokemon))}>
+          <Card.Id>#{convertPokemonIdToThreeDigits(pokemon.id)}</Card.Id>
+          <Card.Image
+            src={pokemon.sprite}
+            alt={pokemon.name}
+            variant={VARIANT.sm}
+          />
+          <Card.Name>{pokemon.name}</Card.Name>
+          <Card.Types>
+            {getPokemonTypes(pokemon).map((p, index) => (
+              <TypePill key={index} type={p.type} size={'sm'} />
+            ))}
+          </Card.Types>
+        </Card>
       ))}
     </PokemonList>
   );
