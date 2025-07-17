@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  pokedex:
+    build: .
+    ports:
+      - '3000:80'
+    environment:
+      - NODE_ENV=production
+
+  pokedex-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - '5173:5173'
+    environment:
+      - CHOKIDAR_USEPOLLING=true
