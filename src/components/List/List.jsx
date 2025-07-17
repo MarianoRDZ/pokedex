@@ -43,7 +43,12 @@ const List = () => {
   return (
     <PokemonList>
       {filteredPokemons.map((pokemon) => (
-        <Card key={pokemon.name} onClick={() => dispatch(openModal(pokemon))}>
+        <Card
+          key={pokemon.name}
+          onClick={() => dispatch(openModal(pokemon))}
+          role="article"
+          aria-label={`Pokemon: ${pokemon.name}`}
+        >
           <Card.Id>#{convertPokemonIdToThreeDigits(pokemon.id)}</Card.Id>
           <Card.Image
             src={pokemon.sprite}

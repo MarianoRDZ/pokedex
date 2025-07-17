@@ -4,11 +4,13 @@ import Card from './Card';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { openModal } from '../../features/pokemon/pokemonModalSlice';
+import { VARIANT } from '../Sprite/Sprite';
+import TypePill from '../TypePill/TypePill';
 
 const mockStore = configureStore([]);
 
 const mockPokemon = {
-  id: 25,
+  id: '025',
   name: 'pikachu',
   sprite: 'https://pokeapi.co/media/sprites/pokemon/25.png',
   types: [{ type: { name: 'electric' } }],
@@ -17,9 +19,18 @@ const mockPokemon = {
 describe('Card', () => {
   it('should render the Pokemon name, ID and image', () => {
     const store = mockStore({});
+
     render(
       <Provider store={store}>
-        <Card pokemon={mockPokemon} />
+        <Card role="article" aria-label={`Pokemon: ${mockPokemon.name}`}>
+          <Card.Id>#{mockPokemon.id}</Card.Id>
+          <Card.Image
+            src={mockPokemon.sprite}
+            alt={mockPokemon.name}
+            variant={VARIANT.sm}
+          />
+          <Card.Name>{mockPokemon.name}</Card.Name>
+        </Card>
       </Provider>
     );
 
@@ -38,7 +49,19 @@ describe('Card', () => {
 
     render(
       <Provider store={store}>
-        <Card pokemon={mockPokemon} />
+        <Card
+          role="article"
+          aria-label={`Pokemon: ${mockPokemon.name}`}
+          onClick={() => store.dispatch(openModal(mockPokemon))}
+        >
+          <Card.Id>#{mockPokemon.id}</Card.Id>
+          <Card.Image
+            src={mockPokemon.sprite}
+            alt={mockPokemon.name}
+            variant={VARIANT.sm}
+          />
+          <Card.Name>{mockPokemon.name}</Card.Name>
+        </Card>
       </Provider>
     );
 
@@ -57,11 +80,28 @@ describe('Card', () => {
 
     render(
       <Provider store={store}>
-        <Card pokemon={multiTypePokemon} />
+        <Card
+          role="article"
+          aria-label={`Pokemon: ${multiTypePokemon.name}`}
+          onClick={() => store.dispatch(openModal(multiTypePokemon))}
+        >
+          <Card.Id>#{multiTypePokemon.id}</Card.Id>
+          <Card.Image
+            src={multiTypePokemon.sprite}
+            alt={multiTypePokemon.name}
+            variant={VARIANT.sm}
+          />
+          <Card.Name>{multiTypePokemon.name}</Card.Name>
+          <Card.Types>
+            {multiTypePokemon.types.map((typeObj, index) => (
+              <TypePill key={index} type={typeObj.type} size="sm" />
+            ))}
+          </Card.Types>
+        </Card>
       </Provider>
     );
 
-    const typePills = screen.getAllByText(/electric|flying/i);
-    expect(typePills.length).toBe(2);
+    expect(screen.getByText(/electric/i)).toBeInTheDocument();
+    expect(screen.getByText(/flying/i)).toBeInTheDocument();
   });
 });
