@@ -1,10 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { closeModal } from '../../features/pokemon/pokemonModalSlice';
-import ModalHeader from '../ModalHeader/ModalHeader';
-import ModalBody from '../ModalBody/ModalBody';
-import { Background, Modal } from './PokemonModal.styles';
+import React from 'react';
 
-export default function PokemonModal() {
+import { useDispatch, useSelector } from 'react-redux';
+import { closeModal } from '../../features/pokemon/pokemonModalSlice.js';
+import { Background, Modal } from './PokemonModal.styles.js';
+
+const PokemonModal = ({ children }) => {
   const dispatch = useDispatch();
   const { isOpen, selectedPokemon } = useSelector(
     (state) => state.pokemonModal
@@ -17,14 +17,23 @@ export default function PokemonModal() {
   if (!isOpen || !selectedPokemon) return null;
 
   return (
-    <Background onClick={() => handleClose()}>
+    <Background onClick={handleClose}>
       <Modal onClick={(e) => e.stopPropagation()}>
-        <ModalHeader
-          selectedPokemon={selectedPokemon}
-          handleClose={handleClose}
-        />
-        <ModalBody selectedPokemon={selectedPokemon} />
+        {React.Children.map(children, (child) =>
+          React.cloneElement(child, {
+            selectedPokemon,
+            handleClose,
+          })
+        )}
       </Modal>
     </Background>
   );
-}
+};
+
+export default PokemonModal;
+
+import ModalHeader from './ModalHeader.jsx';
+import ModalBody from './ModalBody.jsx';
+
+PokemonModal.Header = ModalHeader;
+PokemonModal.Body = ModalBody;

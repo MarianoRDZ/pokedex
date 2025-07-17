@@ -11,7 +11,7 @@ import {
 const ModalHeader = ({ selectedPokemon, handleClose }) => (
   <Header type={selectedPokemon.types[0].type.name || 'normal'}>
     <CloseModal>
-      <CloseButton onClick={() => handleClose()}>X</CloseButton>
+      <CloseButton onClick={handleClose}>X</CloseButton>
     </CloseModal>
     <Sprite
       src={selectedPokemon.sprite}

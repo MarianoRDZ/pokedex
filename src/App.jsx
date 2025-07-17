@@ -1,9 +1,5 @@
-import React from 'react';
-
 import List from './components/List/List';
-const PokemonModal = React.lazy(
-  () => import('./components/Modal/PokemonModal.jsx')
-);
+import PokemonModal from './components/Modal/PokemonModal.jsx';
 import Header from './components/Header/Header.jsx';
 import { Container } from './App.styles.js';
 import Searchbar from './components/Searchbar/Searchbar.jsx';
@@ -19,7 +15,10 @@ function App() {
         </Header.Searchbar>
       </Header>
       <List />
-      <PokemonModal />
+      <PokemonModal>
+        <PokemonModal.Header />
+        <PokemonModal.Body />
+      </PokemonModal>
     </Container>
   );
 }
