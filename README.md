@@ -18,10 +18,11 @@ La aplicación está deployada en Github Pages y puede ser accedida en el siguie
 
 - [Node.js](https://nodejs.org/) 18 en adelante, recomendado LTS, para uso sin Docker
 - [Docker](https://www.docker.com/get-started) y [Docker Compose](https://docs.docker.com/compose/install/) para usar con Docker
+- Archivo `.env` en el root del proyecto con el siguiente contenido dentro: `VITE_POKEMON_API=https://pokeapi.co/api/v2`
 
 ---
 
-## Uso sin Docker (modo desarrollo rápido)
+## Uso sin Docker
 
 #### 1. Cloná el repositorio
 
@@ -36,21 +37,13 @@ cd pokedex
 npm install
 ```
 
-#### 3. Creá un archivo .env en el root del proyecto con lo siguiente
-
-```bash
-VITE_POKEMON_API=https://pokeapi.co/api/v2
-```
-
-#### 4. Levantá la app en modo desarrollo
+#### 3. Levantá la app en modo desarrollo
 
 ```bash
 npm run dev
 ```
 
-#### 5. Abrí en el navegador
-
-http://localhost:5173
+#### 4. Abrí en el navegador en http://localhost:5173
 
 ## Uso con Docker
 
@@ -62,9 +55,9 @@ http://localhost:5173
 docker-compose up pokedex-dev --build
 ```
 
-#### 2. Abrí en el navegador
+#### 2. Abrí en el navegador en http://localhost:5173
 
-http://localhost:5173
+<br>
 
 ### Producción
 
@@ -74,9 +67,7 @@ http://localhost:5173
 docker-compose up pokedex --build
 ```
 
-#### 2. Abrí en el navegador
-
-http://localhost:3000
+#### 2. Abrí en el navegador en http://localhost:3000
 
 ## Tests
 
