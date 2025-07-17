@@ -1,5 +1,20 @@
+import {
+  Container,
+  Pokeball,
+  PokeballButton,
+  LoadingText,
+} from './Loading.styles';
+
 const Loading = () => {
-  return <p>Loading Pokémons...</p>;
+  return (
+    <Container>
+      <LoadingText>Loading Pokémons...</LoadingText>
+
+      <Pokeball>
+        <PokeballButton />
+      </Pokeball>
+    </Container>
+  );
 };
 
 export default Loading;
