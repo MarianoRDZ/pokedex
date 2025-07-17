@@ -1,6 +1,7 @@
 # Pokedex
 
 Una aplicación web para explorar y buscar Pokémon usando la [PokeAPI](https://pokeapi.co/). Desarrollada con React, Redux Toolkit y Styled Components.
+La aplicación está deployada en Github Pages y puede ser accedida en el siguiente link: https://marianordz.github.io/pokedex/
 
 ---
 
