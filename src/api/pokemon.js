@@ -18,8 +18,7 @@ export const getPokemonList = async (limit = 50) => {
 
     return response.data.results.map(({ name, url }) => ({ name, url }));
   } catch (error) {
-    console.error('Error fetching Pokémon list:', error);
-    return [];
+    throw new Error('Hubo un problema al traer el listado de Pokemon');
   }
 };
 
@@ -57,8 +56,7 @@ export const getDetailedPokemonList = async (limit = 50) => {
           },
         };
       } catch (error) {
-        console.error(`Error fetching details for Pokémon at ${url}:`, error);
-        return null;
+        throw new Error('No se pudieron obtener detalles de ningún Pokémon');
       }
     })
   );

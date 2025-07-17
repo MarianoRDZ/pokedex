@@ -33,10 +33,10 @@ describe('pokemonSlice reducer', () => {
   it('should handle fetchPokemons.rejected', () => {
     const action = {
       type: fetchPokemons.rejected.type,
-      error: { message: 'Failed to fetch' },
+      payload: 'Hubo un problema al traer el listado de Pokemon',
     };
     const state = reducer(initialState, action);
     expect(state.status).toBe('failed');
-    expect(state.error).toBe('Failed to fetch');
+    expect(state.error).toBe('Hubo un problema al traer el listado de Pokemon');
   });
 });

@@ -28,11 +28,12 @@ describe('getPokemonList', () => {
     expect(API.get).toHaveBeenCalledWith('/pokemon?limit=20');
   });
 
-  it('should return an empty array if the API fails', async () => {
+  it('should throw an error if the API fails', async () => {
     API.get.mockRejectedValue(new Error('API down'));
 
-    const result = await getPokemonList();
-    expect(result).toEqual([]);
+    await expect(getPokemonList()).rejects.toThrow(
+      'Hubo un problema al traer el listado de Pokemon'
+    );
   });
 
   it('should return empty if no data is available', async () => {
@@ -124,11 +125,12 @@ describe('getDetailedPokemonList', () => {
     expect(result).toEqual([]);
   });
 
-  it('should return empty array if fetching base list fails', async () => {
+  it('should throw an error if fetching base list fails', async () => {
     API.get.mockRejectedValueOnce(new Error('API down'));
 
-    const result = await getDetailedPokemonList();
-    expect(result).toEqual([]);
+    await expect(getDetailedPokemonList()).rejects.toThrow(
+      'Hubo un problema al traer el listado de Pokemon'
+    );
   });
 
   it('should skip failed detail fetches and return the rest', async () => {
