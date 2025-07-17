@@ -4,15 +4,19 @@ const Header = ({ children, ...props }) => {
   return <Container {...props}>{children}</Container>;
 };
 
-Header.Title = ({ children, ...props }) => (
+const Title = ({ children, ...props }) => (
   <HeaderTitle {...props}>{children}</HeaderTitle>
 );
-Header.Subtitle = ({ children, ...props }) => (
+
+const Subtitle = ({ children, ...props }) => (
   <HeaderSubtitle {...props}>{children}</HeaderSubtitle>
 );
 
-Header.Searchbar = ({ children, ...props }) => (
+const HeaderSearchbar = ({ children, ...props }) => (
   <Container {...props}>{children}</Container>
 );
+Header.Searchbar = HeaderSearchbar;
+Header.Title = Title;
+Header.Subtitle = Subtitle;
 
 export default Header;

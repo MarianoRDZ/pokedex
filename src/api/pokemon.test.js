@@ -1,4 +1,5 @@
 import API from './axios';
+import { vi } from 'vitest';
 import { getPokemonList, getDetailedPokemonList } from './pokemon';
 
 vi.mock('./axios');
